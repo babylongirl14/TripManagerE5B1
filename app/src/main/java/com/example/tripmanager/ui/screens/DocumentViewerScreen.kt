@@ -103,7 +103,7 @@ fun DocumentViewerScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF4CAF50)
+                    containerColor = Color.White
                 )
             )
         }

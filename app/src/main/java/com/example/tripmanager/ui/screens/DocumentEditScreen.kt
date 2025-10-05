@@ -3,6 +3,7 @@ package com.example.tripmanager.ui.screens
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,12 +21,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tripmanager.R
 import com.example.tripmanager.data.database.TripDatabase
 import com.example.tripmanager.data.model.DocumentType
 import com.example.tripmanager.data.repository.DocumentRepository
@@ -78,7 +82,7 @@ fun DocumentEditScreen(
                         text = if (documentId != null) "Editar Documento" else "Agregar Documento",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = Color.Black
                     )
                 },
                 navigationIcon = {
@@ -86,12 +90,23 @@ fun DocumentEditScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Back",
-                            tint = Color.White
+                            tint = Color.Black
                         )
                     }
                 },
+                actions = {
+                    // Small logo in top right
+                    Image(
+                        painter = painterResource(id = R.drawable.log),
+                        contentDescription = "Logo",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(RoundedCornerShape(8.dp)), // opcional, esquinas redondeadas
+                        contentScale = ContentScale.Crop
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF4CAF50)
+                    containerColor = Color.White
                 )
             )
         }
@@ -258,7 +273,7 @@ fun DocumentEditScreen(
                             .fillMaxWidth()
                             .height(48.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF4CAF50)
+                            containerColor = Color(0xFF2196F3)
                         ),
                         enabled = !uiState.isLoading
                     ) {

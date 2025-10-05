@@ -1,5 +1,6 @@
 package com.example.tripmanager.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,7 +20,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.tripmanager.R
 import com.example.tripmanager.data.database.TripDatabase
 import com.example.tripmanager.data.repository.UserRepository
 import com.example.tripmanager.ui.viewmodel.RegisterViewModel
@@ -58,22 +61,12 @@ fun RegisterScreen(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box(
+                Image(
+                    painter = painterResource(id = R.drawable.log),
+                    contentDescription = "Logo",
                     modifier = Modifier
-                        .size(100.dp)
-                        .background(
-                            Color(0xFF4CAF50),
-                            shape = androidx.compose.foundation.shape.CircleShape
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Person,
-                        contentDescription = "Logo",
-                        tint = Color.White,
-                        modifier = Modifier.size(50.dp)
-                    )
-                }
+                        .size(150.dp) // ajusta el tamaño según necesites
+                )
                 
                 Spacer(modifier = Modifier.height(16.dp))
                 
@@ -112,7 +105,7 @@ fun RegisterScreen(
                         Icon(
                             imageVector = Icons.Default.Person,
                             contentDescription = "User",
-                            tint = Color(0xFF4CAF50),
+                            tint = Color(0xFF1C1C1E),
                             modifier = Modifier.size(60.dp)
                         )
                     }
@@ -167,7 +160,7 @@ fun RegisterScreen(
                             .fillMaxWidth()
                             .height(48.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF4CAF50)
+                            containerColor = MaterialTheme.colorScheme.primary
                         ),
                         enabled = !uiState.cargando
                     ) {

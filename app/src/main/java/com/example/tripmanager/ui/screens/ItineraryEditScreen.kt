@@ -17,6 +17,12 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalContext
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import com.example.tripmanager.R
 import java.util.Calendar
 import com.example.tripmanager.data.database.TripDatabase
 import com.example.tripmanager.data.model.ItineraryItem
@@ -79,7 +85,18 @@ fun ItineraryEditScreen(
                         text = if (itineraryId == null) "Nueva Actividad" else "Editar Actividad",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = Color.Black
+                    )
+                },
+                actions = {
+                    // Small logo in top right
+                    Image(
+                        painter = painterResource(id = R.drawable.log),
+                        contentDescription = "Logo",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(RoundedCornerShape(8.dp)), // opcional, esquinas redondeadas
+                        contentScale = ContentScale.Crop
                     )
                 },
                 navigationIcon = {
@@ -87,12 +104,12 @@ fun ItineraryEditScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Back",
-                            tint = Color.White
+                            tint = Color.Black
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF4CAF50)
+                    containerColor = Color.White
                 )
             )
         }
@@ -317,7 +334,7 @@ fun ItineraryEditScreen(
                         .fillMaxWidth()
                         .height(50.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF4CAF50)
+                        containerColor = Color(0xFF2196F3)
                     ),
                     enabled = uiState.isValid && !uiState.isLoading
                 ) {

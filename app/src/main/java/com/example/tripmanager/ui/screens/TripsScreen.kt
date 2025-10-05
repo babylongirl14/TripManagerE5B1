@@ -31,6 +31,12 @@ import com.example.tripmanager.data.session.UserSession
 import com.example.tripmanager.ui.viewmodel.TripsViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import com.example.tripmanager.R
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,37 +60,29 @@ fun TripsScreen(
                         text = "Viajes",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = Color.Black
                     )
                 },
                 actions = {
                     // Small logo in top right
-                    Box(
+                    Image(
+                        painter = painterResource(id = R.drawable.log),
+                        contentDescription = "Logo",
                         modifier = Modifier
                             .size(40.dp)
-                            .background(
-                                Color.White.copy(alpha = 0.2f),
-                                shape = RoundedCornerShape(20.dp)
-                            ),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "TM",
-                            color = Color.White,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
+                            .clip(RoundedCornerShape(8.dp)), // opcional, esquinas redondeadas
+                        contentScale = ContentScale.Crop
+                    )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF4CAF50)
+                    containerColor = Color.White
                 )
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onNavigateToAddTrip,
-                containerColor = Color(0xFF4CAF50)
+                containerColor = Color(0xFF1DE9B6)
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,

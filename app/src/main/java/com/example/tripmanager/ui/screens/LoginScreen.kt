@@ -27,6 +27,8 @@ import com.example.tripmanager.data.database.TripDatabase
 import com.example.tripmanager.data.repository.UserRepository
 import com.example.tripmanager.data.session.UserSession
 import com.example.tripmanager.ui.viewmodel.LoginViewModel
+import com.example.tripmanager.R
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,7 +53,7 @@ fun LoginScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF5F5F5))
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
@@ -64,23 +66,13 @@ fun LoginScreen(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box(
+                Image(
+                    painter = painterResource(id = R.drawable.log),
+                    contentDescription = "Logo",
                     modifier = Modifier
-                        .size(80.dp)
-                        .background(
-                            Color(0xFF4CAF50),
-                            shape = androidx.compose.foundation.shape.CircleShape
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Person,
-                        contentDescription = "Logo",
-                        tint = Color.White,
-                        modifier = Modifier.size(40.dp)
-                    )
-                }
-                
+                        .size(150.dp) // ajusta el tamaño según necesites
+                )
+
                 Spacer(modifier = Modifier.height(16.dp))
                 
                 Text(
@@ -118,8 +110,8 @@ fun LoginScreen(
                         Icon(
                             imageVector = Icons.Default.Person,
                             contentDescription = "User",
-                            tint = Color(0xFF4CAF50),
-                            modifier = Modifier.size(48.dp)
+                            tint = Color(0xFF1C1C1E),
+                            modifier = Modifier.size(60.dp)
                         )
                     }
                     OutlinedTextField(
@@ -173,7 +165,7 @@ fun LoginScreen(
                             .fillMaxWidth()
                             .height(48.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF4CAF50)
+                            containerColor = MaterialTheme.colorScheme.primary
                         ),
                         enabled = !uiState.cargando
                     ) {

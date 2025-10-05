@@ -1,5 +1,6 @@
 package com.example.tripmanager.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,12 +19,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.tripmanager.R
 import com.example.tripmanager.data.database.TripDatabase
 import com.example.tripmanager.data.model.TripType
 import com.example.tripmanager.data.repository.TripRepository
@@ -53,7 +57,7 @@ fun TripDetailScreen(
                         text = "Detalle del Viaje",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = Color.Black
                     )
                 },
                 navigationIcon = {
@@ -61,12 +65,23 @@ fun TripDetailScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Back",
-                            tint = Color.White
+                            tint = Color.Black
                         )
                     }
                 },
+                actions = {
+                    // Small logo in top right
+                    Image(
+                        painter = painterResource(id = R.drawable.log),
+                        contentDescription = "Logo",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(RoundedCornerShape(8.dp)), // opcional, esquinas redondeadas
+                        contentScale = ContentScale.Crop
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF4CAF50)
+                    containerColor = Color.White
                 )
             )
         }
@@ -235,11 +250,7 @@ fun ItinerarySection(onNavigateToItinerary: () -> Unit) {
             
             // Sample itinerary items
             val itineraryItems = listOf(
-                "Día 1: Llegada y check-in en el hotel",
-                "Día 2: Visita al centro histórico",
-                "Día 3: Excursión a museos principales",
-                "Día 4: Día libre para compras",
-                "Día 5: Regreso al aeropuerto"
+                "Detalle del itinerario"
             )
             
             itineraryItems.forEach { item ->
@@ -292,12 +303,7 @@ fun DocumentsSection(onNavigateToDocuments: () -> Unit) {
             
             // Sample document items
             val documentItems = listOf(
-                "Pasaporte",
-                "Visa (si es requerida)",
-                "Seguro de viaje",
-                "Reservas de hotel",
-                "Boletos de avión",
-                "Carnet de vacunación"
+                "Ver documentos"
             )
             
             LazyRow(

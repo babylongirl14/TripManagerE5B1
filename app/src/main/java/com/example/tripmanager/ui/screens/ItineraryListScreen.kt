@@ -1,5 +1,6 @@
 package com.example.tripmanager.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,12 +17,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import com.example.tripmanager.R
 import com.example.tripmanager.data.database.TripDatabase
 import com.example.tripmanager.data.model.ItineraryItem
 import com.example.tripmanager.data.model.AlertType
@@ -52,7 +57,7 @@ fun ItineraryListScreen(
                         text = "Itinerario",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = Color.Black
                     )
                 },
                 navigationIcon = {
@@ -60,19 +65,30 @@ fun ItineraryListScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Back",
-                            tint = Color.White
+                            tint = Color.Black
                         )
                     }
                 },
+                actions = {
+                    // Small logo in top right
+                    Image(
+                        painter = painterResource(id = R.drawable.log),
+                        contentDescription = "Logo",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(RoundedCornerShape(8.dp)), // opcional, esquinas redondeadas
+                        contentScale = ContentScale.Crop
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF4CAF50)
+                    containerColor = Color.White
                 )
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onNavigateToAddItinerary,
-                containerColor = Color(0xFF4CAF50)
+                containerColor = Color(0xFF1DE9B6)
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,

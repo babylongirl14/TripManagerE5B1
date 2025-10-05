@@ -60,7 +60,7 @@ fun DocumentsScreen(
                         text = "Documentos",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = Color.Black
                     )
                 },
                 navigationIcon = {
@@ -68,7 +68,7 @@ fun DocumentsScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Back",
-                            tint = Color.White
+                            tint = Color.Black
                         )
                     }
                 },
@@ -77,7 +77,7 @@ fun DocumentsScreen(
                         Icon(
                             imageVector = Icons.Default.Settings,
                             contentDescription = "Opciones de PIN",
-                            tint = Color.White
+                            tint = Color.Black
                         )
                     }
                     DropdownMenu(
@@ -94,14 +94,14 @@ fun DocumentsScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF4CAF50)
+                    containerColor = Color.White
                 )
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onNavigateToAddDocument,
-                containerColor = Color(0xFF4CAF50)
+                containerColor = Color(0xFF1DE9B6)
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
