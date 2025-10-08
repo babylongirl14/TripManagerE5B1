@@ -87,7 +87,7 @@ fun DocumentViewerScreen(
                             Icon(
                                 imageVector = Icons.Default.Share,
                                 contentDescription = "Share",
-                                tint = Color.White
+                                tint = Color.Black
                             )
                         }
                         

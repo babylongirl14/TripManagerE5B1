@@ -39,7 +39,7 @@ fun TripNavigation(
                 }
             )
         }
-        
+
         composable(Screen.Register.route) {
             RegisterScreen(
                 onNavigateToLogin = {
@@ -47,7 +47,7 @@ fun TripNavigation(
                 }
             )
         }
-        
+
         composable(
             route = Screen.Trips.route,
             arguments = Screen.Trips.arguments
@@ -55,6 +55,11 @@ fun TripNavigation(
             val username = backStackEntry.arguments?.getString("username") ?: ""
             TripsScreen(
                 username = username,
+                onNavigateBack = {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(Screen.Trips.route) { inclusive = true }
+                    }
+                },
                 onNavigateToAddTrip = {
                     navController.navigate(Screen.TripEdit.createRoute(null))
                 },
@@ -66,7 +71,7 @@ fun TripNavigation(
                 }
             )
         }
-        
+
         composable(
             route = Screen.TripEdit.route,
             arguments = Screen.TripEdit.arguments
@@ -79,7 +84,7 @@ fun TripNavigation(
                 }
             )
         }
-        
+
         composable(
             route = Screen.TripDetail.route,
             arguments = Screen.TripDetail.arguments
@@ -98,7 +103,7 @@ fun TripNavigation(
                 }
             )
         }
-        
+
         composable(
             route = Screen.PinEntry.route,
             arguments = Screen.PinEntry.arguments
@@ -119,7 +124,7 @@ fun TripNavigation(
                 }
             )
         }
-        
+
         composable(
             route = Screen.Documents.route,
             arguments = Screen.Documents.arguments
@@ -144,7 +149,7 @@ fun TripNavigation(
                 }
             )
         }
-        
+
         composable(
             route = Screen.DocumentEdit.route,
             arguments = Screen.DocumentEdit.arguments
@@ -159,7 +164,7 @@ fun TripNavigation(
                 }
             )
         }
-        
+
         composable("document_viewer/{documentId}") { backStackEntry ->
             val documentId = backStackEntry.arguments?.getString("documentId")?.toLongOrNull() ?: 0L
             DocumentViewerScreen(
@@ -169,7 +174,7 @@ fun TripNavigation(
                 }
             )
         }
-        
+
         composable(Screen.PinReset.route) {
             PinResetScreen(
                 onNavigateBack = {
@@ -180,7 +185,7 @@ fun TripNavigation(
                 }
             )
         }
-        
+
         composable(Screen.ChangePin.route) {
             ChangePinScreen(
                 onNavigateBack = {
@@ -191,7 +196,7 @@ fun TripNavigation(
                 }
             )
         }
-        
+
         composable(
             route = Screen.Itinerary.route,
             arguments = Screen.Itinerary.arguments
@@ -210,7 +215,7 @@ fun TripNavigation(
                 }
             )
         }
-        
+
         composable(
             route = Screen.ItineraryEdit.route,
             arguments = Screen.ItineraryEdit.arguments

@@ -136,55 +136,73 @@ fun TripEditScreen(
                                 unfocusedTextColor = Color(0xFF333333)
                             )
                         )
-                        
+
                         Spacer(modifier = Modifier.height(16.dp))
-                        
-                        // Start Date Field
-                        OutlinedTextField(
-                            value = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(uiState.startDate),
-                            onValueChange = { },
-                            label = { Text("Fecha de inicio") },
+
+                        // Start Date Field - MEJORADO PARA TODA EL ÁREA CLICKEABLE
+                        Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { showStartDatePicker = true },
-                            readOnly = true,
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedTextColor = Color(0xFF333333),
-                                unfocusedTextColor = Color(0xFF333333)
-                            ),
-                            trailingIcon = {
-                                Text(
-                                    text = "📅",
-                                    fontSize = 20.sp
-                                )
-                            }
-                        )
-                        
+                                .clickable { showStartDatePicker = true }
+                        ) {
+                            OutlinedTextField(
+                                value = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(uiState.startDate),
+                                onValueChange = { },
+                                label = { Text("Fecha de inicio") },
+                                modifier = Modifier.fillMaxWidth(),
+                                readOnly = true,
+                                enabled = false, // Deshabilitar para evitar interferencias con el clickable del Box
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    disabledTextColor = Color(0xFF333333),
+                                    disabledLabelColor = Color(0xFF666666),
+                                    disabledBorderColor = Color(0xFF666666),
+                                    disabledLeadingIconColor = Color(0xFF666666),
+                                    disabledTrailingIconColor = Color(0xFF666666)
+                                ),
+                                trailingIcon = {
+                                    Text(
+                                        text = "📅",
+                                        fontSize = 20.sp,
+                                        color = Color(0xFF666666)
+                                    )
+                                }
+                            )
+                        }
+
                         Spacer(modifier = Modifier.height(16.dp))
-                        
-                        // End Date Field
-                        OutlinedTextField(
-                            value = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(uiState.endDate),
-                            onValueChange = { },
-                            label = { Text("Fecha de fin") },
+
+                        // End Date Field - MEJORADO PARA TODA EL ÁREA CLICKEABLE
+                        Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { showEndDatePicker = true },
-                            readOnly = true,
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedTextColor = Color(0xFF333333),
-                                unfocusedTextColor = Color(0xFF333333)
-                            ),
-                            trailingIcon = {
-                                Text(
-                                    text = "📅",
-                                    fontSize = 20.sp
-                                )
-                            }
-                        )
-                        
+                                .clickable { showEndDatePicker = true }
+                        ) {
+                            OutlinedTextField(
+                                value = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(uiState.endDate),
+                                onValueChange = { },
+                                label = { Text("Fecha de fin") },
+                                modifier = Modifier.fillMaxWidth(),
+                                readOnly = true,
+                                enabled = false, // Deshabilitar para evitar interferencias con el clickable del Box
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    disabledTextColor = Color(0xFF333333),
+                                    disabledLabelColor = Color(0xFF666666),
+                                    disabledBorderColor = Color(0xFF666666),
+                                    disabledLeadingIconColor = Color(0xFF666666),
+                                    disabledTrailingIconColor = Color(0xFF666666)
+                                ),
+                                trailingIcon = {
+                                    Text(
+                                        text = "📅",
+                                        fontSize = 20.sp,
+                                        color = Color(0xFF666666)
+                                    )
+                                }
+                            )
+                        }
+
                         Spacer(modifier = Modifier.height(16.dp))
-                        
+
                         // Trip Type Dropdown
                         ExposedDropdownMenuBox(
                             expanded = expanded,
@@ -206,7 +224,7 @@ fun TripEditScreen(
                                     .fillMaxWidth()
                                     .menuAnchor()
                             )
-                            
+
                             ExposedDropdownMenu(
                                 expanded = expanded,
                                 onDismissRequest = { expanded = false }
@@ -227,9 +245,9 @@ fun TripEditScreen(
                                 )
                             }
                         }
-                        
+
                         Spacer(modifier = Modifier.height(24.dp))
-                        
+
                         // Error Message
                         uiState.errorMessage?.let { error ->
                             Text(
@@ -239,7 +257,7 @@ fun TripEditScreen(
                                 modifier = Modifier.padding(bottom = 8.dp)
                             )
                         }
-                        
+
                         // Save Button
                         Button(
                             onClick = tripEditViewModel::saveTrip,
@@ -274,10 +292,10 @@ fun TripEditScreen(
     if (showStartDatePicker) {
         DatePickerDialog(
             selectedDate = uiState.startDate,
-                                onDateSelected = { date ->
-                                    tripEditViewModel.onStartDateChange(date)
-                                    showStartDatePicker = false
-                                },
+            onDateSelected = { date ->
+                tripEditViewModel.onStartDateChange(date)
+                showStartDatePicker = false
+            },
             onDismiss = { showStartDatePicker = false }
         )
     }
@@ -285,10 +303,10 @@ fun TripEditScreen(
     if (showEndDatePicker) {
         DatePickerDialog(
             selectedDate = uiState.endDate,
-                                onDateSelected = { date ->
-                                    tripEditViewModel.onEndDateChange(date)
-                                    showEndDatePicker = false
-                                },
+            onDateSelected = { date ->
+                tripEditViewModel.onEndDateChange(date)
+                showEndDatePicker = false
+            },
             onDismiss = { showEndDatePicker = false }
         )
     }
@@ -311,7 +329,9 @@ fun DatePickerDialog(
             TextButton(
                 onClick = {
                     datePickerState.selectedDateMillis?.let { millis ->
-                        onDateSelected(Date(millis))
+                        val localMidnightOffset = TimeZone.getDefault().getOffset(millis)
+                        val correctedDate = Date(millis + localMidnightOffset)
+                        onDateSelected(correctedDate)
                     }
                     onDismiss()
                 }
@@ -328,4 +348,5 @@ fun DatePickerDialog(
         DatePicker(state = datePickerState)
     }
 }
+
 

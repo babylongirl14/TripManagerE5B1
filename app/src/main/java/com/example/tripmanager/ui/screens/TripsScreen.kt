@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import com.example.tripmanager.R
 import androidx.compose.foundation.Image
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.layout.ContentScale
 
@@ -42,6 +43,7 @@ import androidx.compose.ui.layout.ContentScale
 @Composable
 fun TripsScreen(
     username: String,
+    onNavigateBack: () -> Unit,
     onNavigateToAddTrip: () -> Unit,
     onNavigateToEditTrip: (Long) -> Unit,
     onNavigateToTripDetail: (Long) -> Unit
@@ -62,6 +64,15 @@ fun TripsScreen(
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color.Black
+                        )
+                    }
                 },
                 actions = {
                     // Small logo in top right

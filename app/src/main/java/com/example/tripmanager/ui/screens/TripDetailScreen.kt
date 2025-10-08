@@ -18,19 +18,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tripmanager.R
 import com.example.tripmanager.data.database.TripDatabase
 import com.example.tripmanager.data.model.TripType
+import com.example.tripmanager.data.model.ItineraryItem
 import com.example.tripmanager.data.repository.TripRepository
+import com.example.tripmanager.data.repository.ItineraryRepository
 import com.example.tripmanager.ui.viewmodel.TripDetailViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -46,7 +47,8 @@ fun TripDetailScreen(
     val context = LocalContext.current
     val database = remember { TripDatabase.getDatabase(context) }
     val tripRepository = remember { TripRepository(database.tripDao()) }
-    val tripDetailViewModel = remember { TripDetailViewModel(tripRepository, tripId) }
+    val itineraryRepository = remember { ItineraryRepository(database.itineraryDao()) }
+    val tripDetailViewModel = remember { TripDetailViewModel(tripRepository, itineraryRepository, tripId) }
     val uiState by tripDetailViewModel.uiState.collectAsState()
 
     Scaffold(
@@ -110,12 +112,15 @@ fun TripDetailScreen(
                     item {
                         TripHeaderCard(trip = uiState.trip!!)
                     }
-                    
+
                     // Itinerary Section
                     item {
-                        ItinerarySection(onNavigateToItinerary = onNavigateToItinerary)
+                        ItinerarySection(
+                            itineraryItems = uiState.itineraryItems,
+                            onNavigateToItinerary = onNavigateToItinerary
+                        )
                     }
-                    
+
                     // Documents Section
                     item {
                         DocumentsSection(onNavigateToDocuments = onNavigateToDocuments)
@@ -159,7 +164,7 @@ fun TripHeaderCard(trip: com.example.tripmanager.data.model.Trip) {
     val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     val startDate = dateFormat.format(Date(trip.startDate))
     val endDate = dateFormat.format(Date(trip.endDate))
-    
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -185,9 +190,9 @@ fun TripHeaderCard(trip: com.example.tripmanager.data.model.Trip) {
                     color = Color(0xFF333333)
                 )
             }
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -204,9 +209,9 @@ fun TripHeaderCard(trip: com.example.tripmanager.data.model.Trip) {
                     color = Color(0xFF666666)
                 )
             }
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -228,7 +233,10 @@ fun TripHeaderCard(trip: com.example.tripmanager.data.model.Trip) {
 }
 
 @Composable
-fun ItinerarySection(onNavigateToItinerary: () -> Unit) {
+fun ItinerarySection(
+    itineraryItems: List<ItineraryItem>,
+    onNavigateToItinerary: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -245,15 +253,11 @@ fun ItinerarySection(onNavigateToItinerary: () -> Unit) {
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF333333)
             )
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
-            // Sample itinerary items
-            val itineraryItems = listOf(
-                "Detalle del itinerario"
-            )
-            
-            itineraryItems.forEach { item ->
+
+            // Mostrar actividades reales del itinerario
+            if (itineraryItems.isEmpty()) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -264,22 +268,72 @@ fun ItinerarySection(onNavigateToItinerary: () -> Unit) {
                         modifier = Modifier
                             .size(8.dp)
                             .background(
-                                Color(0xFF4CAF50),
+                                Color(0xFF9E9E9E),
                                 shape = RoundedCornerShape(4.dp)
                             )
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        text = item,
+                        text = "No hay actividades programadas",
                         fontSize = 14.sp,
-                        color = Color(0xFF666666)
+                        color = Color(0xFF9E9E9E),
+                        fontStyle = FontStyle.Italic
+                    )
+                }
+            } else {
+                // Mostrar solo las primeras 3 actividades (preview)
+                val itemsToShow = itineraryItems.take(3)
+
+                itemsToShow.forEach { item ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .background(
+                                    if (item.alertType.name == "IMPORTANT") Color(0xFFFF5722) else Color(0xFF4CAF50),
+                                    shape = RoundedCornerShape(4.dp)
+                                )
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Column {
+                            Text(
+                                text = item.description,
+                                fontSize = 14.sp,
+                                color = Color(0xFF333333),
+                                fontWeight = FontWeight.Medium
+                            )
+                            // Mostrar fecha/hora de la actividad
+                            val dateFormat = SimpleDateFormat("dd/MM HH:mm", Locale.getDefault())
+                            val activityTime = dateFormat.format(Date(item.activityDateTime))
+                            Text(
+                                text = activityTime,
+                                fontSize = 12.sp,
+                                color = Color(0xFF666666)
+                            )
+                        }
+                    }
+                }
+
+                // Mostrar contador si hay más actividades
+                if (itineraryItems.size > 3) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "+ ${itineraryItems.size - 3} actividades más",
+                        fontSize = 12.sp,
+                        color = Color(0xFF4CAF50),
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(start = 20.dp)
                     )
                 }
             }
         }
     }
 }
-
 @Composable
 fun DocumentsSection(onNavigateToDocuments: () -> Unit) {
     Card(
@@ -298,14 +352,14 @@ fun DocumentsSection(onNavigateToDocuments: () -> Unit) {
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF333333)
             )
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             // Sample document items
             val documentItems = listOf(
                 "Ver documentos"
             )
-            
+
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -345,3 +399,4 @@ fun DocumentChip(document: String) {
         }
     }
 }
+

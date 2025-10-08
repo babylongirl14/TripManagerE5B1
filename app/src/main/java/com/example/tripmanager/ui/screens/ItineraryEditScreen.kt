@@ -42,7 +42,7 @@ fun ItineraryEditScreen(
 ) {
     val context = LocalContext.current
     val database = remember { TripDatabase.getDatabase(context) }
-    val itineraryRepository = remember { ItineraryRepository(database.itineraryDao(), context) }
+    val itineraryRepository = remember { ItineraryRepository(database.itineraryDao()) }
     val tripRepository = remember { TripRepository(database.tripDao()) }
     val itineraryEditViewModel = remember { 
         ItineraryEditViewModel(

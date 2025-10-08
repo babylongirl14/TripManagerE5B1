@@ -45,7 +45,7 @@ fun ItineraryListScreen(
 ) {
     val context = LocalContext.current
     val database = remember { TripDatabase.getDatabase(context) }
-    val itineraryRepository = remember { ItineraryRepository(database.itineraryDao(), context) }
+    val itineraryRepository = remember { ItineraryRepository(database.itineraryDao()) }
     val itineraryViewModel = remember { ItineraryViewModel(itineraryRepository, tripId) }
     val uiState by itineraryViewModel.uiState.collectAsState()
 
