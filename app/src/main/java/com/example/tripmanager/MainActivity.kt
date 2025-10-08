@@ -11,12 +11,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.tripmanager.navigation.TripNavigation
+import com.example.tripmanager.notification.NotificationHelper
+import com.example.tripmanager.notification.PermissionHelper
 import com.example.tripmanager.ui.theme.TripManagerTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        
+        // Solicitar permiso de notificaciones al iniciar la app
+        if (!PermissionHelper.hasNotificationPermission(this)) {
+            PermissionHelper.requestNotificationPermission(this)
+        }
+        
+        // Inicializar canales de notificación
+        NotificationHelper(this)
+        
         setContent {
             TripManagerTheme {
                 Surface(

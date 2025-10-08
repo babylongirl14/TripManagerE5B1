@@ -42,7 +42,7 @@ fun ItineraryEditScreen(
 ) {
     val context = LocalContext.current
     val database = remember { TripDatabase.getDatabase(context) }
-    val itineraryRepository = remember { ItineraryRepository(database.itineraryDao()) }
+    val itineraryRepository = remember { ItineraryRepository(database.itineraryDao(), context) }
     val tripRepository = remember { TripRepository(database.tripDao()) }
     val itineraryEditViewModel = remember { 
         ItineraryEditViewModel(
@@ -261,13 +261,12 @@ fun ItineraryEditScreen(
                                     onDismissRequest = { reminderExpanded = false }
                                 ) {
                                     listOf(
+                                        "15 minutos antes",
                                         "30 minutos antes",
                                         "1 hora antes",
                                         "2 horas antes",
-                                        "3 horas antes",
                                         "1 día antes",
-                                        "2 días antes",
-                                        "3 días antes"
+                                        "2 días antes"
                                     ).forEach { option ->
                                         DropdownMenuItem(
                                             text = { Text(option) },

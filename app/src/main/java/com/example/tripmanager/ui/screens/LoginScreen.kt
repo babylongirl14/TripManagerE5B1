@@ -199,7 +199,7 @@ fun LoginScreen(
             
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "v1.0 - TripManager",
+                text = "v1.0.5 - TripManager",
                 fontSize = 12.sp,
                 color = Color(0xFF999999),
                 textAlign = TextAlign.Center
